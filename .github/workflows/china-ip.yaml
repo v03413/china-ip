@@ -18,11 +18,12 @@ jobs:
 
       - name: Download China IP List
         run: |
-          wget https://raw.githubusercontent.com/gaoyifan/china-operator-ip/refs/heads/ip-lists/china.txt
-          wget https://raw.githubusercontent.com/Hackl0us/GeoIP2-CN/refs/heads/release/CN-ip-cidr.txt
+          wget https://raw.githubusercontent.com/gaoyifan/china-operator-ip/refs/heads/ip-lists/china.txt -O china_1.txt
+          wget https://raw.githubusercontent.com/Hackl0us/GeoIP2-CN/refs/heads/release/CN-ip-cidr.txt -O china_2.txt
+          wget https://raw.githubusercontent.com/metowolf/iplist/master/data/special/china.txt -O china_3.txt
 
       - name: Megage and Aggregate China IP List
-        run: cat china.txt CN-ip-cidr.txt | sort | uniq | aggregate | grep -v "^[[:space:]]*$" | sed 's/[[:space:]]//g' | perl -pe 'chomp if eof' > china_ip.txt
+        run: cat china_1.txt china_2.txt china_3.txt | sort | uniq | aggregate | grep -v "^[[:space:]]*$" | sed 's/[[:space:]]//g' | perl -pe 'chomp if eof' > china_ip.txt
 
       - name: Push artifacts to release branch
         run: |
